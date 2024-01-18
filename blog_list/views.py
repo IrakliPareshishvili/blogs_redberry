@@ -1,13 +1,14 @@
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.response import Response
 from .models import Category, Blog
 from .serializers import CategorySerializer, BlogSerializer
 from rest_framework import permissions
-# from rest_framework.permissions import AllowAny
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 # Create your views here.
 
@@ -16,11 +17,15 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
 
-
 class BlogViewSet(viewsets.ModelViewSet):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = {
+        'publish_date': ['exact'],
+        'categories': ['exact'],
+    }
 
 # class ObtainTokenView(APIView):
 #     permission_classes = [AllowAny]

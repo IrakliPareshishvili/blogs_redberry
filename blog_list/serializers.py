@@ -7,6 +7,12 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class BlogSerializer(serializers.ModelSerializer):
+    categories = serializers.SlugRelatedField(
+        many=True,
+        slug_field='name',
+        queryset=Category.objects.all()
+    )
+
     class Meta:
         model = Blog
         fields = '__all__'
