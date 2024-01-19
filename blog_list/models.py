@@ -1,8 +1,8 @@
-from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator
 from django.db import models
 
 # Create your models here.
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -18,12 +18,6 @@ class Blog(models.Model):
     author = models.CharField(max_length=255, blank=False, validators=[MinLengthValidator(4)])
     email = models.EmailField(blank=True, null=True)
 
-    def clean(self):
-        if not any(char.isalpha() for char in self.author):
-            raise ValidationError("Author must contain at least one letter.")
-        words = self.author.split()
-        if len(words) < 2:
-            raise ValidationError("Author must have at least two words.")
 
     def __str__(self):
         return self.title
