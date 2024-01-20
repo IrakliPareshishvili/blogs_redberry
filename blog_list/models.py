@@ -9,6 +9,9 @@ class Category(models.Model):
     text_color = models.CharField(max_length=7)
     background_color = models.CharField(max_length=7)
 
+    def __str__(self):
+        return self.name
+
 class Blog(models.Model):
     title = models.CharField(max_length=255, blank=False, validators=[MinLengthValidator(2)])
     description = models.TextField(validators=[MinLengthValidator(2)], blank=False)
