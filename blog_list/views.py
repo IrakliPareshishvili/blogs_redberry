@@ -14,7 +14,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 class CategoryListView(ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -25,7 +25,7 @@ class CategoryListView(ListCreateAPIView):
 class BlogListCreateView(ListCreateAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend]
     filterset_fields = {'categories': ['exact']}
 
@@ -38,7 +38,7 @@ class BlogListCreateView(ListCreateAPIView):
 class BlogRetrieveView(RetrieveAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class LoginAPIView(APIView):
