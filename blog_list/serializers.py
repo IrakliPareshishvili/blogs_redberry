@@ -21,4 +21,12 @@ class BlogSerializer(serializers.ModelSerializer):
         model = Blog
         fields = ['id', 'title', 'description', 'image', 'publish_date', 'categories', 'author']
 
-    
+    def create(self, validated_data):
+        category_ids = self.context['request'].data.get('category_ids', [])
+        blog = Blog.objects.create(**validated_data)
+        category_ids = [int(cid) for cid in category_ids]
+        if category_ids:
+            blog.categories.set(category_ids)
+
+        return blog
+
